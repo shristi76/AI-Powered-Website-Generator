@@ -1,0 +1,291 @@
+/* Reset and Base Styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* 
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background: linear-gradient(to right, hsl(249, 100%, 50%), hsl(271, 98%, 51%)); 
+ 
+color: #ffffff;
+font-weight: bolder;
+  transition: background-color 0.3s ease, color 0.7s ease;
+} */
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(-45deg, hsl(249, 100%, 50%), hsl(219, 98%, 51%), hsl(268, 99%, 50%), hsl(251, 99%, 37%));
+  background-size: 400% 400%;
+  animation: gradientFlow 12s ease infinite;
+  color: #fff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+/* Container */
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 2rem 1rem;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Headings */
+h1, h2 {
+  text-align: center;
+  margin-bottom: 1.2rem;
+  font-weight: 600;
+}
+
+/* Textarea */
+textarea {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: none;
+  resize: vertical;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,210,255,0.4);
+}
+
+/* Buttons */
+button {
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #e9c10d;
+  color: hsl(0, 5%, 4%);
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+button:hover {
+  background-color: #ff08ad;
+  color: #fff9f9;
+  transform: scale(1.02);
+}
+
+/* Output Section */
+#output {
+  margin-top: 2rem;
+  animation: slideUp 0.6s ease-in-out;
+}
+
+.preview {
+  margin-top: 1rem;
+  width: 100%;
+  height: 500px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(0,0,0,0.4);
+  animation: fadeIn 1s ease-in-out;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Code Previews */
+pre {
+  background-color: #1e1e1e;
+  color: #dcdcdc;
+  padding: 1rem;
+  overflow-x: auto;
+  border-radius: 8px;
+  margin-top: 1rem;
+  font-family: Consolas, monospace;
+  display: none;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Dark Mode */
+body.dark {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+body.dark textarea,
+body.dark iframe,
+body.dark pre {
+  background-color: #1e1e1e;
+  color: #dcdcdc;
+}
+
+body.dark button {
+  background-color: #2c2c2c;
+  color: white;
+}
+
+body.dark button:hover {
+  background-color: #07ff07;
+  color: black;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  textarea {
+    font-size: 0.95rem;
+  }
+
+  button {
+    font-size: 0.95rem;
+  }
+
+  .preview {
+    height: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .preview {
+    height: 300px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+
+/* About/Tagline Section */
+.tagline {
+  font-size: 1.1rem;
+  text-align: center;
+  margin-top: -0.5rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  color: #f5f5f5;
+}
+
+/* Button Group */
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.button-group button {
+  flex: 1 1 180px;
+  min-width: 160px;
+}
+
+/* Dark mode for tagline */
+body.dark .tagline {
+  color: #cccccc;
+}
+
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  position: relative;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  background: url('https://www.transparenttextures.com/patterns/connected.png');
+  background-size: cover;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: slideUp 1s ease-in-out;
+}
+
+.hero-icon {
+  width: 64px;
+  margin-bottom: 0.5rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Floating animation for icon */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Preview & iframe transition */
+.preview {
+  animation: zoomIn 1s ease;
+}
+
+@keyframes zoomIn {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Tagline glow effect */
+.tagline {
+  font-size: 1.15rem;
+  margin-top: 0.5rem;
+  color: #f8f8f8;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Improve textarea placeholder */
+textarea::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Stylish Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+/* Button hover glow */
+button:hover {
+  box-shadow: 0 0 15px rgba(0, 210, 255, 0.6);
+}
+
+/* Button ripple effect on click */
+button:active {
+  transform: scale(0.97);
+}
+
+

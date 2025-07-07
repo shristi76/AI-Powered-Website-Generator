@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Website Generator</title>
+  <link rel="stylesheet" href="index.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+    
+<main class="container">
+  <header class="hero">
+    <img src="https://img.icons8.com/ios-filled/100/ffffff/artificial-intelligence.png" alt="AI Icon" class="hero-icon" />
+    <h1>AI Website Generator</h1>
+    <p class="tagline"> This website is AI-powered — turn any idea into a real look.<br>Let’s try it, my friend!</p>
+  </header>
+
+  <section class="input-section">
+    <textarea id="promptInput" placeholder="Describe the website you want..." rows="5"></textarea>
+
+    <div class="button-group">
+      <button onclick="generateWebsite()">Generate Website</button>
+      <button onclick="previewInNewTab()">Preview in New Tab</button>
+      <button onclick="downloadZip()">Download ZIP</button>
+      <button id="themeToggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+    </div>
+  </section>
+
+  <section id="output" style="display: none;">
+    <h2>Generated Website:</h2>
+    <div class="preview">
+      <iframe id="previewFrame"></iframe>
+    </div>
+    <button id="codeButton" onclick="toggleCode()">See Code</button>
+    <div class="code-section">
+      <pre id="htmlCode"></pre>
+      <pre id="cssCode"></pre>
+      <pre id="jsCode"></pre>
+    </div>
+  </section>
+</main>
+
+
+  <script>
+    let lastResponse = { html: '', css: '', js: '' };
+
+    async function generateWebsite() {
+      const prompt = document.getElementById('promptInput').value.trim();
+      const button = document.querySelector('button');
+      if (!prompt) {
+        alert("Please enter a prompt.");
+        return;
+      }
+
+      button.disabled = true;
+      button.innerText = "Generating...";
+
+      try {
+        const res = await fetch('http://localhost:5000/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt }),
+        });
+
+        const data = await res.json();
+        lastResponse = data;
+
+        const combinedContent = `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>${data.css}</style>
+</head>
+<body>
+  ${data.html}
+  <script>${data.js}<\/script>
+</body>
+</html>`;
+
+        const iframe = document.getElementById('previewFrame');
+        iframe.srcdoc = combinedContent;
+
+        document.getElementById('htmlCode').textContent = `<!-- HTML -->\n${data.html}`;
+        document.getElementById('cssCode').textContent = `/* CSS */\n${data.css}`;
+        document.getElementById('jsCode').textContent = `// JavaScript\n${data.js}`;
+
+        document.getElementById('output').style.display = 'block';
+      } catch (err) {
+        alert("Failed to generate site. Check console for error.");
+        console.error(err);
+      } finally {
+        button.disabled = false;
+        button.innerText = "Generate Website";
+      }
+    }
+
+    function toggleCode() {
+      const htmlEl = document.getElementById('htmlCode');
+      const cssEl = document.getElementById('cssCode');
+      const jsEl = document.getElementById('jsCode');
+      const isVisible = htmlEl.style.display === 'block';
+
+      const newDisplay = isVisible ? 'none' : 'block';
+      htmlEl.style.display = newDisplay;
+      cssEl.style.display = newDisplay;
+      jsEl.style.display = newDisplay;
+    }
+
+    function previewInNewTab() {
+      if (!lastResponse.html && !lastResponse.css && !lastResponse.js) {
+        alert("No content to preview. Please generate a site first.");
+        return;
+      }
+
+      const fullHTML = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Generated Website</title>
+  <style>${lastResponse.css}</style>
+</head>
+<body>
+  ${lastResponse.html}
+  <script>${lastResponse.js}<\/script>
+</body>
+</html>`;
+
+      const blob = new Blob([fullHTML], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    }
+
+    function downloadZip() {
+      if (!lastResponse.html && !lastResponse.css && !lastResponse.js) {
+        alert("Nothing to download. Please generate a site first.");
+        return;
+      }
+
+      const zip = new JSZip();
+      zip.file("index.html", lastResponse.html);
+      zip.file("style.css", lastResponse.css);
+      zip.file("script.js", lastResponse.js);
+
+      zip.generateAsync({ type: "blob" }).then(function(content) {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(content);
+        a.download = "generated-site.zip";
+        a.click();
+      });
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+      const btn = document.getElementById("themeToggle");
+      btn.innerText = document.body.classList.contains("dark") ? "Light Mode" : "Dark Mode";
+    }
+  </script>
+</body>
+</html>
