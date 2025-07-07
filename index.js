@@ -22,7 +22,7 @@ app.post('/generate', async (req, res) => {
   const { prompt } = req.body;
 
   const wrappedPrompt = `
-You are a professional web developer. Based on the user's request, generate a complete modern website with beautiful looks and style. Use real images from https://source.unsplash.com or https://picsum.photos. Avoid broken image links or placeholder names. Return HTML, CSS, and JavaScript as separate blocks. Use this format strictly:
+You are a professional web developer. Based on the user's request, generate a complete modern website with beautiful looks and style. strictly Use real images from https://source.unsplash.com or https://picsum.photos. Avoid broken image links or placeholder names. Return HTML, CSS, and JavaScript as separate blocks. Use this format strictly:
 
 
 <!-- HTML_START -->
